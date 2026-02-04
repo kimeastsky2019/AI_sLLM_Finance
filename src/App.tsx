@@ -1,0 +1,82 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { ROUTE_PATHS } from "@/lib";
+
+import CompanyHome from "@/pages/CompanyHome";
+import CompanyInfo from "@/pages/CompanyInfo";
+import Home from "@/pages/Home";
+import Dashboard from "@/pages/Dashboard";
+import Assessment from "@/pages/Assessment";
+import TechnicalValidation from "@/pages/TechnicalValidation";
+import Monitoring from "@/pages/Monitoring";
+import Compliance from "@/pages/Compliance";
+import ServiceDetail from "@/pages/ServiceDetail";
+import InteractiveDemo from "@/pages/InteractiveDemo";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      retry: 1,
+    },
+  },
+});
+
+/**
+ * AI 위험 관리 솔루션 (AI Governance Orchestrator) App Entry Point
+ * © 2026 AI Risk Management Solution. All rights reserved.
+ */
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner position="top-right" expand={false} richColors />
+        <HashRouter>
+          <Routes>
+            {/* 기업 공식 홈페이지 (Company Home) */}
+            <Route path={ROUTE_PATHS.HOME} element={<CompanyHome />} />
+
+            {/* 기업 소개 및 비전 (Company Info) */}
+            <Route path={ROUTE_PATHS.INFO} element={<CompanyInfo />} />
+
+            {/* AI Sentinel 제품 소개 페이지 (Product Landing) */}
+            <Route path={ROUTE_PATHS.PRODUCT_AI_SENTINEL} element={<Home />} />
+
+            {/* 통합 위험 대시보드 (Risk Command Center) */}
+            <Route path={ROUTE_PATHS.DASHBOARD} element={<Dashboard />} />
+
+            {/* AI 서비스 위험성 평가서 (고영향 AI 판별 마법사) */}
+            <Route path={ROUTE_PATHS.ASSESSMENT} element={<Assessment />} />
+
+            {/* 기술 검증 보고서 (Bias Map, XAI Heatmap) */}
+            <Route
+              path={ROUTE_PATHS.TECHNICAL_VALIDATION}
+              element={<TechnicalValidation />}
+            />
+
+            {/* 실시간 모니터링 및 성능 저하 탐지 */}
+            <Route path={ROUTE_PATHS.MONITORING} element={<Monitoring />} />
+
+            {/* 규제 준수 및 가이드라인 관리 */}
+            <Route path={ROUTE_PATHS.COMPLIANCE} element={<Compliance />} />
+
+            {/* 개별 서비스 상세 분석 */}
+            <Route path={ROUTE_PATHS.SERVICE_DETAIL} element={<ServiceDetail />} />
+
+            {/* 인터랙티브 데모 */}
+            <Route path={ROUTE_PATHS.DEMO} element={<InteractiveDemo />} />
+
+            {/* Catch-all: 잘못된 경로 접근 시 홈으로 리다이렉트 */}
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </HashRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
+
+export default App;
