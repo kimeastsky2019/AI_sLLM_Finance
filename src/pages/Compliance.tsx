@@ -7,11 +7,11 @@ import {
 import { ComplianceChart } from "../components/Charts";
 import { complianceData } from "../data/index";
 import { IMAGES } from "../assets/images";
+import { governanceProcessRows } from "../data/ai_governance_process";
 import {
   ShieldCheck,
   AlertTriangle,
   FileText,
-  Globe,
   History,
   ExternalLink,
   Scale,
@@ -19,6 +19,14 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { springPresets, fadeInUp, staggerContainer, staggerItem } from "../lib/motion";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../components/ui/table";
 
 const Compliance = () => {
   const totalCompliance = Math.round(
@@ -241,6 +249,83 @@ const Compliance = () => {
             </div>
           </div>
         </div>
+
+        {/* Governance Process Detail */}
+        <motion.section
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="bg-card border border-border rounded-3xl p-6 lg:p-8"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold">AI 거버넌스 프로세스 상세 구축 요건</h2>
+              <p className="text-sm text-muted-foreground mt-2">
+                요청서 작성부터 사전 승인까지 단계별 산출물, 입력 정보, 수행 액션을 체계적으로 정리했습니다.
+              </p>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              최신 업데이트: 2026-02-15
+            </div>
+          </div>
+          <div className="border border-border rounded-2xl overflow-hidden">
+            <div className="overflow-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[140px]">Process</TableHead>
+                    <TableHead className="min-w-[160px]">Activity</TableHead>
+                    <TableHead className="min-w-[180px]">기능명</TableHead>
+                    <TableHead className="min-w-[280px]">상세 구축요건</TableHead>
+                    <TableHead className="min-w-[220px]">설명</TableHead>
+                    <TableHead className="min-w-[220px]">Input 정보</TableHead>
+                    <TableHead className="min-w-[200px]">Action</TableHead>
+                    <TableHead className="min-w-[220px]">Output 정보</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {governanceProcessRows.map((row, idx) => (
+                    <TableRow key={`${row.feature}-${idx}`}>
+                      <TableCell className="font-semibold text-primary/90">{row.process}</TableCell>
+                      <TableCell>{row.activity}</TableCell>
+                      <TableCell className="font-medium">{row.feature}</TableCell>
+                      <TableCell>
+                        <ul className="list-disc pl-4 space-y-1 text-sm text-muted-foreground">
+                          {row.requirements.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">{row.description}</TableCell>
+                      <TableCell>
+                        <ul className="list-disc pl-4 space-y-1 text-sm text-muted-foreground">
+                          {row.inputs.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </TableCell>
+                      <TableCell>
+                        <ul className="list-disc pl-4 space-y-1 text-sm text-muted-foreground">
+                          {row.actions.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </TableCell>
+                      <TableCell>
+                        <ul className="list-disc pl-4 space-y-1 text-sm text-muted-foreground">
+                          {row.outputs.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        </motion.section>
 
         {/* Compliance Footer Message */}
         <footer className="text-center py-10 opacity-50">
